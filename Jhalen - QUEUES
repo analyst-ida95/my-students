@@ -1,0 +1,68 @@
+#include <stdio.h>
+ 
+#define MINUTES_TO_SIMULATE 10
+#define QUEUE_CAPACITY (MINUTES_TO_SIMULATE + 1)
+ 
+int queue[QUEUE_CAPACITY];
+int front = 0;
+int rear = 0;
+int guestCount = 0;
+ 
+void enqueueGuest(int guestID) {
+    queue[rear] = guestID;
+    rear = (rear + 1) % QUEUE_CAPACITY;
+    guestCount++;
+}
+ 
+int dequeueGuest(void) {
+    if (guestCount == 0) {
+        return -1;
+    }
+    int servedGuestID = queue[front];
+    front = (front + 1) % QUEUE_CAPACITY;
+    guestCount--;
+    return servedGuestID;
+}
+ 
+void printQueueContents(void) {
+    printf("[");
+    int index = front;
+    for (int i = 0; i < guestCount; i++) {
+        printf("%d", queue[index]);
+        if (i < guestCount - 1) {
+            printf(", ");
+        }
+        index = (index + 1) % QUEUE_CAPACITY;
+    }
+    printf("]");
+}
+ 
+ 
+int main(void) {
+    printf("\nMinute Ticket Queue Simulation\n");
+    printf("\n============================================\n");
+ 
+    int nextGuestID = 1;
+ 
+    for (int minute = 1; minute <= MINUTES_TO_SIMULATE; minute++) {
+        enqueueGuest(nextGuestID);
+        nextGuestID++;
+ 
+        int servedID = -1;
+        if (minute % 3 != 0) {
+            servedID = dequeueGuest();
+        }
+ 
+        printf("min %d: served = ", minute);
+        if (servedID == -1) {
+            printf("--");
+        } else {
+            printf("%d", servedID);
+        }
+        printf(" queue = ");
+        printQueueContents();
+        printf("\n");
+    }
+ 
+    return 0;
+}
