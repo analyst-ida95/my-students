@@ -1,0 +1,167 @@
+#include <stdio.h>
+
+int stack[20];
+int top = -1;
+
+void push(int value) {
+    stack[++top] = value;
+}
+
+int pop() {
+    return stack[top--];
+}
+
+int main() {
+    int choice;
+    char again;
+
+    do {
+        top = -1;
+
+        printf("Jhalen's Snack Stand\n");
+        printf("Press the numbers to get your food or a bundle!");
+        printf("\n======================================\n");
+        printf("[1: Hotdog Combo]\n");
+        printf("[2: Family Pizza Deal]\n");
+        printf("[3: Ice Cream Pack]\n");
+        printf("[4: Burger Duo]\n");
+        printf("[5: Exit]\n");
+
+        printf("\nEnter Your Choice:");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: {
+                int a, b, result;
+                int hotdog = 70, fries = 40, drinks = 60; /* Drink \u20b130 x 2 persons */
+
+                printf("\n--Hotdog Combo--\n");
+                printf("Hotdog for 2 persons - \u20b1%d\n", hotdog);
+                printf("Fries for 2 persons - \u20b1%d\n", fries);
+                printf("Drink per person - \u20b130 (optional) x2 = \u20b1%d\n", drinks);
+                printf("Great Choice!\n");
+
+                push(hotdog);
+                push(fries);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                push(drinks);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                printf("\u20b1%d + \u20b1%d + \u20b1%d = \u20b1%d\n", hotdog, fries, drinks, pop());
+                break;
+            }
+
+            case 2: {
+                int a, b, result;
+                int pizza = 699, cheese = 50, drinks = 60; /* Drink \u20b130 x 2 persons */
+
+                printf("\n--Family Pizza Deal--\n");
+                printf("12\" Overload Pizza - \u20b1%d (original price)\n", pizza);
+                printf("Extra Cheese - \u20b1%d\n", cheese);
+                printf("Drink per person - \u20b130 (optional) x2 = \u20b1%d\n", drinks);
+                printf("Note: Discount - 12%% off if PWD or Senior (not yet applied below)\n");
+                printf("Great Choice!\n");
+
+                push(pizza);
+                push(cheese);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                push(drinks);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                printf("\u20b1%d + \u20b1%d + \u20b1%d = \u20b1%d\n", pizza, cheese, drinks, pop());
+                break;
+            }
+
+            case 3: {
+                int a, b, result;
+                int tub = 250, toppings = 40, cones = 20, promo = 20; /* Cones \u20b110 x 2 persons */
+
+                printf("\n--Ice Cream Pack--\n");
+                printf("Ice Cream Tub - \u20b1%d\n", tub);
+                printf("Toppings - \u20b1%d\n", toppings);
+                printf("Ice cream cones per person - \u20b110 x2 = \u20b1%d\n", cones);
+                printf("Note: Promo - \u20b1%d off (already applied below)\n", promo);
+                printf("Great Choice!\n");
+
+                push(tub);
+                push(toppings);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                push(cones);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                push(promo);
+                b = pop();
+                a = pop();
+                result = a - b;
+                push(result);
+
+                printf("\u20b1%d + \u20b1%d + \u20b1%d - \u20b1%d = \u20b1%d\n", tub, toppings, cones, promo, pop());
+                break;
+            }
+
+            case 4: {
+                int a, b, result;
+                int burgers = 160, fries = 40, drinks = 60; /* Drink \u20b130 x 2 persons */
+
+                printf("\n--Burger Duo--\n");
+                printf("Burgers for 2 persons - \u20b1%d\n", burgers);
+                printf("Fries for 2 persons - \u20b1%d\n", fries);
+                printf("Drink per person - \u20b130 (optional) x2 = \u20b1%d\n", drinks);
+                printf("Note: Discount - 12%% off if PWD or Senior (not yet applied below)\n");
+                printf("Great Choice!\n");
+
+                push(burgers);
+                push(fries);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                push(drinks);
+                b = pop();
+                a = pop();
+                result = a + b;
+                push(result);
+
+                printf("\u20b1%d + \u20b1%d + \u20b1%d = \u20b1%d\n", burgers, fries, drinks, pop());
+                break;
+            }
+
+            case 5: {
+                printf("\nThank You!\n");
+                return 0;
+            }
+
+            default: {
+                printf("\nJust press 1-5, ;-;!\n");
+            }
+        }
+
+        printf("\nDo you wish to have input! Press Y, if YES, vice versa? (Y/N):\n");
+        scanf(" %c", &again);
+
+    } while (again == 'Y' || again == 'y');
+
+    return 0;
+}
