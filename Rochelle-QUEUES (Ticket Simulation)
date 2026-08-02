@@ -1,0 +1,114 @@
+#include <stdio.h>
+
+#define SIZE 100
+
+int queue[SIZE];
+int front = -1;
+int rear = -1;
+
+void enqueue(int value)
+{
+    if((rear + 1) % SIZE == front)
+    {
+        printf("Queue Overflow!\n");
+        return;
+    }
+
+    if(front == -1)
+        front = rear = 0;
+    else
+        rear = (rear + 1) % SIZE;
+
+    queue[rear] = value;
+    
+}
+
+int dequeue()
+{
+    int value;
+
+    if(front == -1)
+    {
+        return -1;
+    }
+
+    value = queue[front];
+
+    if(front == rear)
+    {
+        front = rear = -1;
+    }
+    else
+    {
+        front = (front + 1) % SIZE;
+    }
+
+    return value;
+}
+
+void  showQueue()
+{
+    int i;
+
+    if(front == -1)
+    {
+        printf("Queue = []");
+        return;
+    }
+
+    printf("Queue = [");
+
+    i = front;
+
+    while(1)
+    {
+        printf("%d", queue[i]);
+
+        if(i == rear)
+            break;
+
+        printf(", ");
+
+        i = (i + 1) % SIZE;
+    }
+
+    printf("]");
+}
+
+int main()
+{
+    int minute;
+    int guest = 1;
+    int servedGuest;
+
+    printf("===== Ticket Line Simulation =====\n\n");
+
+    for(minute = 1; minute <= 10; minute++)
+    {
+        printf("Minute %d\n", minute);
+        printf("New Guest: %d\n", guest);
+        enqueue(guest);
+        
+        guest++;
+
+        if(minute % 3 != 0)
+        {
+            servedGuest = dequeue();
+        }
+        else
+        {
+            servedGuest= -1;
+        }
+
+        if(servedGuest == -1)
+            printf("Served Guest: --\n");
+        else
+            printf("Served Guest: %d\n", servedGuest);
+
+        showQueue();
+
+        printf("\n\n");
+    }
+
+    return 0;
+}
