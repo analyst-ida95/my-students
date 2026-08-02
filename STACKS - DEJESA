@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 100
+
+// Stack structure
+typedef struct {
+    float data[MAX];
+    int top;
+} Stack;
+
+// Initialize stack
+void init(Stack *s) {
+    s->top = -1;
+}
+
+// Push
+void push(Stack *s, float value) {
+    if (s->top == MAX - 1) {
+        printf("Stack Overflow!\n");
+        exit(1);
+    }
+    s->data[++s->top] = value;
+}
+
+// Pop
+float pop(Stack *s) {
+    if (s->top == -1) {
+        printf("Stack Underflow!\n");
+        exit(1);
+    }
+    return s->data[s->top--];
+}
+
+// Evaluate postfix expression
+float evaluatePostfix(char exp[]) {
+    Stack s;
+    init(&s);
+
+    char *token = strtok(exp, " ");
+
+    while (token != NULL) {
+
+        // If token is a number
+        if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
+            push(&s, atof(token));
+        }
+        else {
+            float b = pop(&s);
+            float a = pop(&s);
+
+            switch (token[0]) {
+                case '+':
+                    push(&s, a + b);
+                    break;
+                case '-':
+                    push(&s, a - b);
+                    break;
+                case '*':
+                    push(&s, a * b);
+                    break;
+                case '/':
+                    push(&s, a / b);
+                    break;
+                default:
+                    printf("Invalid Operator!\n");
+                    exit(1);
+            }
+        }
+
+        token = strtok(NULL, " ");
+    }
+
+    return pop(&s);
+}
+
+int main() {
+
+    printf("=============================================\n");
+    printf("      STACKS - SNACK STAND POSTFIX CALCULATOR\n");
+    printf("=============================================\n\n");
+
+    printf("Available Bundle/Combo Meals\n\n");
+
+    printf("1. Hotdog Combo\n");
+    printf("   Hotdog (2 persons)  : 70\n");
+    printf("   Fries (2 persons)   : 40\n");
+    printf("   Drink/person        : 30 (optional)\n");
+    printf("   Example Postfix: 70 40 + 60 +\n");
+    printf("   (2 drinks = 30 * 2 = 60)\n\n");
+
+    printf("2. Family Pizza Deal\n");
+    printf("   Pizza               : 699\n");
+    printf("   Extra Cheese        : 50\n");
+    printf("   Drink/person        : 30 (optional)\n");
+    printf("   12%% Discount (PWD/Senior)\n");
+    printf("   Example Postfix: 699 50 + 60 + 0.12 * -\n\n");
+
+    printf("3. Ice Cream Pack\n");
+    printf("   Ice Cream Tub       : 250\n");
+    printf("   Toppings            : 40\n");
+    printf("   Cones               : 20\n");
+    printf("   Promo               : 20 off\n");
+    printf("   Example Postfix: 250 40 + 20 + 20 -\n\n");
+
+    printf("4. Burger Duo\n");
+    printf("   Burgers             : 160\n");
+    printf("   Fries               : 40\n");
+    printf("   Drinks              : 60\n");
+    printf("   12%% Discount (PWD/Senior)\n");
+    printf("   Example Postfix: 160 40 + 60 + 0.12 * -\n\n");
+
+    char expression[200];
+
+    printf("Enter a postfix expression:\n");
+    getchar(); // clear input buffer
+    fgets(expression, sizeof(expression), stdin);
+
+    expression[strcspn(expression, "\n")] = '\0';
+
+    char copy[200];
+    strcpy(copy, expression);
+
+    float result = evaluatePostfix(copy);
+
+    printf("\nExpression: %s\n", expression);
+    printf("Total Price: PHP %.2f\n", result);
+
+    return 0;
+}
