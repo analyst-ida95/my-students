@@ -1,0 +1,116 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+// Function to display the array
+void displayArray(int arr[], int size) {
+    printf("Array: [");
+    for (int i = 0; i < size; i++) {
+        printf("%d", arr[i]);
+        if (i < size - 1) printf(", ");
+    }
+    printf("]\n");
+}
+
+// Function to insert an element at a specific index
+void insertElement(int arr[], int *size, int index, int value) {
+    if (index < 0 || index > *size || *size >= MAX_SIZE) {
+        printf("Error: Invalid index or array is full\n");
+        return;
+    }
+    
+    // Shift elements to the right
+    for (int i = *size; i > index; i--) {
+        arr[i] = arr[i - 1];
+    }
+    
+    arr[index] = value;
+    (*size)++;
+    
+    printf("Inserted %d at index %d\n", value, index);
+    displayArray(arr, *size);
+}
+
+// Function to delete an element at a specific index
+void deleteElement(int arr[], int *size, int index) {
+    if (index < 0 || index >= *size) {
+        printf("Error: Invalid index\n");
+        return;
+    }
+    
+    printf("Deleted %d from index %d\n", arr[index], index);
+    
+    // Shift elements to the left
+    for (int i = index; i < *size - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    
+    (*size)--;
+    displayArray(arr, *size);
+}
+
+// Function to search for an element
+int searchElement(int arr[], int size, int value) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == value) {
+            return i;  // Found at index i
+        }
+    }
+    return -1;  // Not found
+}
+
+// Function to update an element at a specific index
+void updateElement(int arr[], int size, int index, int newValue) {
+    if (index < 0 || index >= size) {
+        printf("Error: Invalid index\n");
+        return;
+    }
+    
+    printf("Updated index %d from %d to %d\n", index, arr[index], newValue);
+    arr[index] = newValue;
+    displayArray(arr, size);
+}
+
+int main() {
+    int waitTimes[MAX_SIZE] = {15, 25, 35, 10, 20};
+    int size = 5;
+    
+    printf("=== Theme Park Ride Wait-Time Board ===\n\n");
+    
+    printf("Initial Array:\n");
+    displayArray(waitTimes, size);
+    printf("\n");
+    
+    // Operation 1: Insert 20 at index 1, then 30 at index 3
+    printf("--- Operation 1: Insert Elements ---\n");
+    insertElement(waitTimes, &size, 1, 20);
+    printf("\n");
+    insertElement(waitTimes, &size, 3, 30);
+    printf("\n");
+    
+    // Operation 2: Delete the element at index 2
+    printf("--- Operation 2: Delete Element ---\n");
+    deleteElement(waitTimes, &size, 2);
+    printf("\n");
+    
+    // Operation 3: Search for 25 in the list
+    printf("--- Operation 3: Search for 25 ---\n");
+    int searchIndex = searchElement(waitTimes, size, 25);
+    if (searchIndex != -1) {
+        printf("Found 25 at index %d\n", searchIndex);
+    } else {
+        printf("25 not found in the list\n");
+    }
+    printf("\n");
+    
+    // Operation 4: Update the first element to 10
+    printf("--- Operation 4: Update First Element ---\n");
+    updateElement(waitTimes, size, 0, 10);
+    printf("\n");
+    
+    // Final display
+    printf("--- Final Array ---\n");
+    displayArray(waitTimes, size);
+    
+    return 0;
+}
