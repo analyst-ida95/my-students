@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+// Circular Queue Structure
+typedef struct {
+    int items[MAX];
+    int front;
+    int rear;
+    int count;
+} Queue;
+
+// Initialize Queue
+void initialize(Queue *q) {
+    q->front = 0;
+    q->rear = -1;
+    q->count = 0;
+}
+
+// Check if Queue is Full
+int isFull(Queue *q) {
+    return q->count == MAX;
+}
+
+// Check if Queue is Empty
+int isEmpty(Queue *q) {
+    return q->count == 0;
+}
+
+// Enqueue
+void enqueue(Queue *q, int value) {
+    if (isFull(q)) {
+        printf("Queue is Full!\n");
+        return;
+    }
+
+    q->rear = (q->rear + 1) % MAX;
+    q->items[q->rear] = value;
+    q->count++;
+}
+
+// Dequeue
+int dequeue(Queue *q) {
+    if (isEmpty(q))
+        return -1;
+
+    int value = q->items[q->front];
+    q->front = (q->front + 1) % MAX;
+    q->count--;
+
+    return value;
+}
+
+// Display Queue
+void displayQueue(Queue *q) {
+    if (isEmpty(q)) {
+        printf("[]");
+        return;
+    }
+
+    printf("[");
+
+    int index = q->front;
+
+    for (int i = 0; i < q->count; i++) {
+        printf("%d", q->items[index]);
+
+        if (i < q->count - 1)
+            printf(", ");
+
+        index = (index + 1) % MAX;
+    }
+
+    printf("]");
+}
+
+int main() {
+
+    Queue q;
+    initialize(&q);
+
+    int minutes;
+    int guestID = 1;
+
+    printf("=====================================\n");
+    printf("   Ticket Line Queue Simulation\n");
+    printf("=====================================\n");
+
+    printf("Enter number of minutes to simulate: ");
+    scanf("%d", &minutes);
+
+    printf("\nMinute | Served | Queue\n");
+    printf("--------------------------------------\n");
+
+    for (int minute = 1; minute <= minutes; minute++) {
+
+        // New guest arrives every minute
+        enqueue(&q, guestID++);
+
+        int served = -1;
+
+        // Clerk takes a break every 3rd minute
+        if (minute % 3 != 0) {
+            served = dequeue(&q);
+        }
+
+        printf("%4d   | ", minute);
+
+        if (served == -1)
+            printf("  --   | ");
+        else
+            printf("%4d  | ", served);
+
+        displayQueue(&q);
+        printf("\n");
+    }
+
+    return 0;
+}
