@@ -1,0 +1,211 @@
+#include <stdio.h>
+
+int stack[10];
+    int top=-1;
+    
+    void push(int value)
+    {
+        stack[++top]=value;
+    }
+    
+    int pop()
+    {
+        return stack[top--];
+    }
+    
+    int main ()
+    {
+        int choice;
+        char again;
+        
+        do
+        {
+            top =-1;
+            
+            printf("\n====================\n");
+            printf("SNACK STAND POSTFIX CALCULATOR\n");
+            printf("\n====================\n");
+            printf("[1]Hotdog Combo\n");
+            printf("[2]Family Pizza Deal\n");
+            printf("[3]Ice Cream Pack\n");
+            printf("[4]Burger Duo\n");
+            printf("[5]Exit\n");
+            
+            printf("\nEnter Your Choice:");
+            
+            scanf("%d", &choice);
+            
+            switch(choice)
+            {
+                case 1:
+                {
+                    int a, b, c, result;
+                
+                printf("\n--Hotdog Combo--\n");
+                printf("Postfix Expression:70 40+30+\n");
+                
+                push(70);
+                push(40);
+
+                b=pop();
+                a=pop();
+                result=a+b;
+                push(result);
+                
+                
+                push(30);
+
+                b=pop();
+                a=pop();
+                result=a+b;
+                push(result);
+                
+                printf("Final Price:%d\n",pop());
+                break;
+                }
+                
+                case 2:
+                {
+                    int a, b, c, result;
+                    int total, discount, final;
+                    char type;
+                    
+                    printf("\n--Family Pizza Deal--\n");
+                    printf("Postfix Expression:699 50+ 30 + \n");
+                    
+                    push(699);
+                    push(50);
+
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    
+                    push(30);
+
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    total=pop();
+                    
+                    printf("PWD/Senior? (Y/N): ");
+                    scanf(" %c", &type);
+                    
+                    if (type=='Y' || type=='y')
+                    {
+                        discount=total*12/100;
+                        
+                        final=total-discount;
+                        
+                        printf("Discount: %d\n ", discount);
+                        printf("Final Price: %d\n", final);
+                    }
+                    else
+                    {
+                        printf("Final Price: %d\n", total);
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    int a, b, c, result;
+                    
+                    printf("\n--Ice Cream Pack--\n");
+                    printf("Postfix Expression:250 40+10+20-\n");
+                    
+                    push(250);
+                    push(40);
+
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    
+                    push(10);
+
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    push(20);
+
+                    b=pop();
+                    a=pop();
+                    result=a-b;
+                    push(result);
+                    
+                    printf("Final Price:%d\n",pop());
+                    break;
+                }
+                
+                case 4:
+                {
+                    int a, b, c, result;
+                    int total, discount, final;
+                    char type;
+                    
+                    printf("\n--Burger Duo--\n");
+                    printf("Postfix Expression:160 40 + 30 +\n");
+                    
+                    push(160);
+                    push(40);
+                    
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    
+                    push(30);
+
+                    b=pop();
+                    a=pop();
+                    result=a+b;
+                    push(result);
+                    
+                    total=pop();
+                    
+                    printf("PWD/Senior? (Y/N):");
+                    scanf(" %c", &type);
+                    
+                    if (type=='Y' || type=='y')
+                    {
+                        discount=total*12/100;
+                        final=total-discount;
+                        
+                        printf("Discount: %d\n",discount);
+                        printf("Final: %d\n", final);
+                    }
+                    else
+                    {
+                        printf("Final Price: %d\n", total);
+                    }
+                    break;
+                }
+                
+                case 5:
+                {
+                    printf("\nThank You!\n");
+                    
+                    return 0;
+                }
+                
+                default:
+                {
+                    printf("\nInvalid Choice!\n");
+                }
+            }
+                
+                printf("\nAnother Transaction? (Y/N):\n");
+                scanf(" %c",&again);
+                
+            } while(again=='Y'||again=='y');
+            
+            return 0;
+            
+        }
