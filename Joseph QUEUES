@@ -1,0 +1,113 @@
+#include <stdio.h>
+
+#define MAX 10
+
+int queue[MAX];
+int front = -1;
+int rear = -1;
+
+void enqueue(int value)
+{
+    if((rear + 1) % MAX == front)
+    {
+        printf("Queue Overflow!\n");
+        return;
+    }
+
+    if(front == -1)
+        front = rear = 0;
+    else
+        rear = (rear + 1) % MAX;
+
+    queue[rear] = value;
+}
+
+int dequeue()
+{
+    int value;
+
+    if(front == -1)
+    {
+        return -1;
+    }
+
+    value = queue[front];
+
+    if(front == rear)
+    {
+        front = rear = -1;
+    }
+    else
+    {
+        front = (front + 1) % MAX;
+    }
+
+    return value;
+}
+
+void display()
+{
+    int i;
+
+    if(front == -1)
+    {
+        printf("Queue = []");
+        return;
+    }
+
+    printf("Queue = [");
+
+    i = front;
+
+    while(1)
+    {
+        printf("%d", queue[i]);
+
+        if(i == rear)
+            break;
+
+        printf(", ");
+
+        i = (i + 1) % MAX;
+    }
+
+    printf("]");
+}
+
+int main()
+{
+    int minute;
+    int guestID = 1;
+    int served;
+
+    printf("===== Ticket Line Simulation =====\n\n");
+
+    for(minute = 1; minute <= 10; minute++)
+    {
+        enqueue(guestID);
+
+        guestID++;
+
+        if(minute % 3 != 0)
+        {
+            served = dequeue();
+        }
+        else
+        {
+            served = -1;
+        }
+
+        printf("Minute %d\n", minute);
+
+        if(served == -1)
+            printf("Served: --\n");
+        else
+            printf("Served: %d\n", served);
+
+        display();
+
+        printf("\n\n");
+    }
+
+    return 0;
+}
